@@ -1,5 +1,7 @@
 'use strict';
 
+jest.unmock('src/main.js');
+
 describe('Main', () => {
     beforeEach(() => {
         document.body.innerHTML = '<div id="app"></div>';
