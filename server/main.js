@@ -11,7 +11,6 @@ var Express = require('express');
  */
 var config = require('../config/server.js').default;
 
-var port = 8080;
 /**
  * Starts the server.
  */
@@ -23,7 +22,7 @@ function serve() {
     express.use(Express.static(config.public));
 
     // Start listening.
-    var server = express.listen(8080);
+    var server = express.listen(config.port);
 
     server.on('error', onError);
     server.on('listening', onListening);    
