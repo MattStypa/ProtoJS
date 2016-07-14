@@ -118,7 +118,7 @@ function runJest(jestConfiguration) {
  * @returns {promise}
  */
 function runWebpack(configuration) {
-    var deferred = Q.defer();
+    var deferred = Promise.defer();
 
     Webpack(configuration, function webpackCallback(error, stats) {
         GulpUtil.log(stats.toString(configuration.stats));
