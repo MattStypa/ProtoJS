@@ -8,6 +8,11 @@ if (process.env.NODE_ENV != 'production' && !process.env.NODE_PATH) {
 }
 
 /**
+ * Node modules
+ */
+var ChildProcess = require('child_process');
+
+/**
  * NPM modules
  */
 require('babel-register');
@@ -15,7 +20,6 @@ var _ = require('lodash');
 var Gulp = require('gulp');
 var GulpUtil = require('gulp-util');
 var Jest = require('jest-cli');
-var Q = require('q');
 var Webpack = require('webpack');
 
 /**
@@ -53,6 +57,13 @@ Gulp.task('test', function test() {
 });
 
 /**
+ * Runs test suite with debugger enabled. This might be flaky.
+ */
+Gulp.task('test-debug', function testDebug() {
+    ChildProcess.spawn('node', ['--debug-brk', process.argv[1], 'test'], {stdio: 'inherit'});
+});
+
+/**
  * Runs test suite with coverage report.
  */
 Gulp.task('test-coverage', function testCoverage() {
@@ -74,15 +85,28 @@ Gulp.task('dev', function dev() {
  * @returns {promise}
  */
 function runJest(jestConfiguration) {
-    var deferred = Q.defer();
+    var deferred = Promise.defer();
 
-    Jest.runCLI({config: jestConfiguration}, jestConfiguration.rootDir, function jestCallback(pass) {
+    function isArgumentDebug(argument) {
+        return argument.includes('--debug');
+    }
+
+    function jestCallback(pass) {
         if (pass) {
             deferred.resolve();
         } else {
             deferred.reject(new GulpUtil.PluginError('Jest', config.messages.failure));
         }
-    });
+    }
+
+    // If we are running in debug mode we will need jest to not create child processes
+    var debugMode = !!process.execArgv.find(isArgumentDebug);
+
+    Jest.runCLI(
+        {config: jestConfiguration, runInBand: debugMode},
+        jestConfiguration.rootDir,
+        jestCallback
+    );
 
     return deferred.promise;
 }
