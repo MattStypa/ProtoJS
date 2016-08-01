@@ -1,4 +1,4 @@
 export default {
     port: 8080,
-    public: process.env.NODE_PATH + '/public'
+    public: process.env.NODE_PATH + '/dist'
 };

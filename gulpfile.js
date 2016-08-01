@@ -50,6 +50,14 @@ Gulp.task('build-dev', function buildDev() {
 });
 
 /**
+ * Copies static assets to the distribution directory.
+ */
+Gulp.task('copy-static', function copyAssets() {
+    Gulp.src(config.paths.static)
+        .pipe(Gulp.dest(config.paths.dist));
+});
+
+/**
  * Runs test suite.
  */
 Gulp.task('test', function test() {
@@ -74,6 +82,7 @@ Gulp.task('test-coverage', function testCoverage() {
  * Starts the Express servers and watches for file changes.
  */
 Gulp.task('dev', function dev() {
+    Gulp.start('copy-static');
     Gulp.start('build-dev');
     Gulp.start('serve');
 });

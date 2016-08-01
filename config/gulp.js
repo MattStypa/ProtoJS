@@ -4,12 +4,18 @@
 import Webpack from 'webpack';
 
 export default {
+    paths: {
+        static: [
+            'static/**'
+        ],
+        dist: 'dist'
+    },
     webpack: {
         base: {
             context: process.env.NODE_PATH,
             entry: ['babel-polyfill', './src/main.js'],
             output: {
-                path: 'public/js',
+                path: 'dist/js',
                 filename: 'bundle.js'
             },
             resolve: {
