@@ -1,3 +1,6 @@
+# DEPRECATED
+I no longer actively support this. Please use [ProtoReact](https://github.com/MattStypa/ProtoReact) and simply get rid of the React stuff.
+
 # ProtoJS
 ProtoJS is my personal Boilerplate I use to rapidly prototype JavaScript apps.
 
